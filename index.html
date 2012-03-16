@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>Download our app</title>
+	<link rel="icon" type="image/png" href="Twilio_64.png">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <style>
+        body { font-family: sans-serif;}
+        h1 { margin: 10px 0 5px 0; font-size: 1.5em;}
+        div#ajax_result { color: grey; }
+        div#ajax_result.error { color: red; }
+		div.container {width: 360px; text-align: center;}
+    </style>
+</head>
+<body>
+    <div class="container">
+		<img src="logobrand.png">
+        <h1>Receive a download link via SMS</h1>
+        <form class="well form-inline" id="download_form" action="send-sms.php" method="POST">
+            <p><label><input id="phone_number_input" type="tel" name="phone_number" placeholder="Phone number"></label>
+			<button class="btn btn-primary">Send</button></p>  
+        </form>
+        <div id="ajax_result"></div>
+	</div>
+	
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+    $('#download_form').submit(function(e) {
+        e.preventDefault();
+
+        // isolate the phone_number_input field so it can be submitted via AJAX to the PHP backend
+        var post_data = {phone_number: $('#phone_number_input').val()};
+        
+        // send the AJAX request using jQuery's HTTP POST function
+        var ajax_request = $.post('send-sms.php', post_data);
+
+        // for simplicity, treat all non "success" HTTP responses as errors
+        ajax_request.complete(function(data, statusText) {
+            if (statusText == 'success') {
+                $('#ajax_result').removeClass('error').text("You should receive a text shortly.");
+            }
+            else {
+                $('#ajax_result').addClass('error').text("Something went wrong.");
+            };
+        });
+
+    });
+    </script>
+	
+</body>
+</html>

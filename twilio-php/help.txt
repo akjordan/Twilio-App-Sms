@@ -1,0 +1,1 @@
+This directory contains a subset of the Twilio PHP helper library. The complete Twilio PHP helper library (including documentation) is available at: https://github.com/twilio/twilio-php
